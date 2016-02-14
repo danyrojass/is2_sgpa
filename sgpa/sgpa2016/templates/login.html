@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+    <link href="/static/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/formoid-solid-orange.css" type="text/css" />
+		<form class="formoid-solid-orange" style="background-color:#ffffff;font-size:14px;font-family:Ubuntu,Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post"><div class="title"><h2>Login</h2></div>{% csrf_token %}
+			<div class="element-input"><label class="title" for="user_login"></label><div class="item-cont"><input class="large" type="text" name="username" id="username" value="" placeholder="Nombre de Usuario"/><span class="icon-place"></span></div></div>
+			<div class="element-password"><label class="title" for="user_pass"></label><div class="item-cont"><input class="large" type="password" name="password" id="password" value="" placeholder="Password"/><span class="icon-place"></span></div></div>
+			<div class="submit"><input type="submit" name="login" value="Entrar"/></div></form>
+		</form>
+{% endblock content %}
