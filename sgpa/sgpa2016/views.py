@@ -202,7 +202,6 @@ def editar_usuarios(request, user_id):
     
     user_model = get_object_or_404(User, pk=user_id)
     user_profile = get_object_or_404(Usuarios, id=user_id)
-    roles = Roles.objects.all()
 
     if request.method == 'POST':
         form = EditarUserForm(request.POST, request.FILES)
@@ -217,15 +216,13 @@ def editar_usuarios(request, user_id):
             user_profile.direccion = form.cleaned_data['direccion']
             user_profile.observacion = form.cleaned_data['observacion']
             user_profile.save()
-            
-            rol_id = request.POST.get('rol', None)
-            asignar_rol_usuario(request, user_id, rol_id)
-            
+
             return render_to_response('usuarios/gracias.html', {'usuario':usuario, 'saludo':saludo, 'aid':aid, 'um':user_model, 'up':user_profile}, context_instance=RequestContext(request))
     else:
         form = EditarUserForm()
-    return render(request, 'usuarios/editar.html', {'form': form, 'usuario':usuario, 'saludo':saludo, 'um':user_model, 'up':user_profile, 'roles':roles})
+    return render(request, 'usuarios/editar.html', {'form': form, 'usuario':usuario, 'saludo':saludo, 'um':user_model, 'up':user_profile})
 
+@login_required(login_url='/ingresar')
 def asignar_rol_usuario(request, user_id, rol_id):
     rol = Roles.objects.get(pk=rol_id)
     usuario = Usuarios.objects.get(pk=user_id)
@@ -357,7 +354,11 @@ def crear_roles(request):
             lista_permisos = request.POST.getlist(u'permisos')
             
             asignar_permisos_rol(request, rol_id, lista_permisos)
-            pr = rol.permisos.all()
+            pr1 = rol.permisos.all().filter(nivel=1)
+            pr2 = rol.permisos.all().filter(nivel=2)
+            pr3 = rol.permisos.all().filter(nivel=3)
+            pr = map(None, pr1, pr2, pr3)
+            
             return render_to_response('roles/gracias.html', {'aid':aid, 'usuario':usuario, 'saludo':saludo, 'pr':pr, 'rol':rol}, context_instance=RequestContext(request))
 
     else:
@@ -393,7 +394,10 @@ def editar_roles(request, rol_id):
     permisos = map(None, permisos1, permisos2, permisos3)
     
     rol = get_object_or_404(Roles, id=rol_id)
-    lista = rol.permisos.all()
+    p1 = rol.permisos.all().filter(nivel=1)
+    p2 = rol.permisos.all().filter(nivel=2)
+    p3 = rol.permisos.all().filter(nivel=3)
+    lista = map(None, p1, p2, p3)
 
     if request.method == 'POST':
         form = EditarRolForm(request.POST, rol_id=rol_id)
@@ -407,7 +411,10 @@ def editar_roles(request, rol_id):
             lista_permisos = request.POST.getlist(u'permisos')
             
             editar_permisos_rol(request, rol_id, lista_permisos)
-            pr = rol.permisos.all()
+            pr1 = rol.permisos.all().filter(nivel=1)
+            pr2 = rol.permisos.all().filter(nivel=2)
+            pr3 = rol.permisos.all().filter(nivel=3)
+            pr = map(None, pr1, pr2, pr3)
             
             return render_to_response('roles/gracias.html', {'aid':aid, 'usuario':usuario, 'saludo':saludo, 'pr':pr, 'rol':rol}, context_instance=RequestContext(request))
     else:
@@ -452,7 +459,10 @@ def ver_roles(request, rol_id):
     saludo = saludo_dia()
     
     rol = get_object_or_404(Roles, id=rol_id)
-    pr = rol.permisos.all()
+    permisos1 = rol.permisos.all().filter(nivel=1)
+    permisos2 = rol.permisos.all().filter(nivel=2)
+    permisos3 = rol.permisos.all().filter(nivel=3)
+    pr = map(None, permisos1, permisos2, permisos3)
     
     return render_to_response('roles/ver.html', {'usuario':usuario, 'saludo':saludo, 'rol':rol, 'pr':pr})
 

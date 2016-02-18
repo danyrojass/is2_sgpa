@@ -68,21 +68,7 @@
 								      	<tr>
 										  	<td><b>Observación</b></td>
 										 	<td><input NAME="observacion" type="text" class="cajaGrande" id="observacion" size="45" maxlength="50" value=""></td>
-								      	</tr>
-								      	
-								      	<tr>
-											<td width="15%"><b>Rol</b></td>
-											<td width="43%">
-											   	<select name="rol" id="rol">
-													<option selected="selected" disabled="disabled">--- Selecciona un Rol ---</option>
-													{% if roles %}
-														{% for r in roles %}
-															<option value="{{r.id}}">{{r.nombre}}</option>
-										   				{% endfor %}
-										   			{% endif %}
-									   			</select>
-											</td>
-								   		</tr>	      	
+								      	</tr>      	      	
 								      	
 									</table>
 								</div>
