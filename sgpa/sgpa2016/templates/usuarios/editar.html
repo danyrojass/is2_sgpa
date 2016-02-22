@@ -3,7 +3,7 @@
 {% block content %}
 	<link href="/static/style1.css" rel="stylesheet" type="text/css" />
 		<div id="welcome" align="center">	
-			{{saludo}}, <span1>{{usuario.username}}</span1>!
+			{{saludo}}, <a href="{% url 'sgpa2016:modificar_contrasena' %}">{{usuario.username}}</a>!
 		</div>
 		
 	<link href="/static/menu.css" rel="stylesheet" type="text/css" />

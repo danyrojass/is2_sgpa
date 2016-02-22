@@ -3,7 +3,7 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.models import User
 
-from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm
+from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm
 from .models import Usuarios, Permisos, Roles, Permisos_Roles, Roles_Usuarios
 
 from django.contrib.auth import authenticate, login, logout
@@ -223,12 +223,35 @@ def editar_usuarios(request, user_id):
     return render(request, 'usuarios/editar.html', {'form': form, 'usuario':usuario, 'saludo':saludo, 'um':user_model, 'up':user_profile})
 
 @login_required(login_url='/ingresar')
+def modificar_contrasena(request):
+    aid = 4
+    comprobar(request)
+    if(request.user.is_anonymous()):
+        return HttpResponseRedirect('/ingresar')
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    request.session['last_activity'] = str(now)
+    
+    usuario = request.user
+    user = User.objects.filter(id=usuario.id)
+    saludo = saludo_dia()
+    
+    if request.method == 'POST':
+        form = ModificarContrasenaForm(request.POST, user=user)
+        if form.is_valid():
+            usuario.password =  make_password(form.cleaned_data['password'])   
+            usuario.save()
+
+            return render_to_response('usuarios/gracias.html', {'aid':aid, 'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))
+    else:
+        form = ModificarContrasenaForm(user=user)
+    return render(request, 'usuarios/modificar_contrasena.html', {'form': form, 'usuario':usuario, 'saludo':saludo})
+    
+@login_required(login_url='/ingresar')
 def asignar_rol_usuario(request, user_id, rol_id):
     rol = Roles.objects.get(pk=rol_id)
     usuario = Usuarios.objects.get(pk=user_id)
     ru = Roles_Usuarios(roles=rol, usuario=usuario)
-    ru.save()
-    
+    ru.save() 
 
 @login_required(login_url='/ingresar')
 def eliminar_usuarios(request, user_id):
