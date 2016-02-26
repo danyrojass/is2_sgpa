@@ -832,20 +832,20 @@ Not advised to edit stuff below this line
   border-color: #ED9C28;
 }
 .formoid-solid-orange div.title{
-  background-color: #ED9C28;
-  border-top: 1px solid #F2B968;
-  border-bottom: 5px solid #CE8114;
+  background-color: #0080FF;
+  border-top: 1px solid #95A8BB;
+  border-bottom: 5px solid #1E4D7B;
 }
 
 .formoid-solid-orange input[type=submit]{
-  background-color: #ED9C28;
+  background-color: #0080FF;
 }
 
-.formoid-solid-orange input[type=submit]:hover{
-  background-color: #F2B968;
+.formoid-solid-orange [type=submit]:hover{
+  background-color: #95A8BB;
 }
 .formoid-solid-orange input[type=submit]:active{
-  background-color: #CE8114;
+  background-color: #1E4D7B;
 }
 
 /* File input */

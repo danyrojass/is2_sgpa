@@ -22,7 +22,6 @@ class RegistroUserForm(forms.Form):
     direccion = forms.CharField(required=False, max_length=45)
     tipo = forms.ChoiceField(choices=TIPOS)
     observacion = forms.CharField(required=False, max_length=50)
-    activo = forms.BooleanField(required=False)
 
     def clean_username(self):
         """Comprueba que no exista un username igual en la db"""

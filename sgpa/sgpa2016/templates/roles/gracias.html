@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Registro de Usuario{% endblock title %}
+{% block title %}Cambios guardados{% endblock title %}
 {% block content %}
 	<link href="/static/style1.css" rel="stylesheet" type="text/css" />
 		<div id="welcome" align="center">	
@@ -69,9 +69,9 @@
 							<div id="frmBusqueda">
 								<table class="fuente8" width="98%" cellspacing=0 cellpadding=3 border=0>
 									<tr>
-										<td width="35%"><u><b>NIVEL PRIMARIO</b></u></td>
-										<td width="35%"><u><b>NIVEL SECUNDARIO</b></u></td>
-										<td width="35%"><u><b>NIVEL TERCIARIO</b></u></td>
+										<td width="35%"><u><b>NIVEL ALTO</b></u></td>
+										<td width="35%"><u><b>NIVEL MEDIO</b></u></td>
+										<td width="35%"><u><b>NIVEL BAJO</b></u></td>
 									</tr>
 									{% if pr %}
 										{% for p, q, r in pr %}

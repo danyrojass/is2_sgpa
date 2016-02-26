@@ -101,12 +101,13 @@
 						<div id="frmResultado">
 							<table class="fuente8" width="100%" cellspacing=0 cellpadding=3 border=0 ID="Table1">
 								<tr class="cabeceraTabla">
-									<td width="8%">ÍTEM</td>
+									<td width="7%">ÍTEM</td>
 									<td width="8%">ID</td>
-									<td width="16%">NOMBRE DE USUARIO</td>
-									<td width="16%">NOMBRES </td>
-									<td width="16%">APELLIDOS </td>
-									<td width="21%">EMAIL</td>
+									<td width="15%">NOMBRE DE USUARIO</td>
+									<td width="15%">NOMBRES </td>
+									<td width="15%">APELLIDOS </td>
+									<td width="20%">EMAIL</td>
+									<td width="5%">&nbsp;</td>
 									<td width="5%">&nbsp;</td>
 									<td width="5%">&nbsp;</td>
 									<td width="5%">&nbsp;</td>
@@ -120,24 +121,26 @@
 											{% if user.id != usuario.id %}
 												{% if forloop.counter|divisibleby:2  %}
 													<tr class="itemImparTabla">
-														<td class="aCentro" width="8%"><div align="center">{{forloop.counter0}}</div></td>
+														<td class="aCentro" width="7%"><div align="center">{{forloop.counter0}}</div></td>
 														<td width="8%"><div align="center">{{user.id}}</div></td>
-														<td width="16%"><div align="center">{{user.username}}</div></td>
-														<td width="16%"><div align="center">{{user.first_name}}</div></td>
-														<td width="16%"><div align="center">{{user.last_name}}</div></td>
-														<td width="21%"><div align="center">{{user.email}}</div></td>
+														<td width="15%"><div align="center">{{user.username}}</div></td>
+														<td width="15%"><div align="center">{{user.first_name}}</div></td>
+														<td width="15%"><div align="center">{{user.last_name}}</div></td>
+														<td width="20%"><div align="center">{{user.email}}</div></td>
+														<td width="5%"><div align="center"><a href="#"><img src="/static/img/list.png" width="16" height="16" border="0" title="Agregar Roles/Permisos"></a></div></td>
 														<td width="5%"><div align="center"><a href="{% url 'sgpa2016:ver_usuarios' user.id %}"><img src="/static/img/ver.png" width="16" height="16" border="0" title="Visualizar"></a></div></td>
 														<td width="5%"><div align="center"><a href="{% url 'sgpa2016:editar_usuarios' user.id %}"><img src="/static/img/modificar.png" width="16" height="16" border="0" title="Modificar"></a></div></td>
 														<td width="5%"><div align="center"><a href="{% url 'sgpa2016:eliminar_usuarios' user.id %}"><img src="/static/img/eliminar.png" width="16" height="16" border="0" title="Eliminar"></a></div></td>
 													</tr>
 												{% else %}
 													<tr class="itemParTabla"> 
-														<td class="aCentro" width="8%"><div align="center">{{forloop.counter0}}</div></td>
+														<td class="aCentro" width="7%"><div align="center">{{forloop.counter0}}</div></td>
 														<td width="8%"><div align="center">{{user.id}}</div></td>
-														<td width="16%"><div align="center">{{user.username}}</div></td>
-														<td width="16%"><div align="center">{{user.first_name}}</div></td>
-														<td width="16%"><div align="center">{{user.last_name}}</div></td>
-														<td width="21%"><div align="center">{{user.email}}</div></td>
+														<td width="15%"><div align="center">{{user.username}}</div></td>
+														<td width="15%"><div align="center">{{user.first_name}}</div></td>
+														<td width="15%"><div align="center">{{user.last_name}}</div></td>
+														<td width="20%"><div align="center">{{user.email}}</div></td>
+														<td width="5%"><div align="center"><a href="#"><img src="/static/img/list.png" width="16" height="16" border="0" title="Agregar Roles/Permisos"></a></div></td>
 														<td width="5%"><div align="center"><a href="{% url 'sgpa2016:ver_usuarios' user.id %}"><img src="/static/img/ver.png" width="16" height="16" border="0" title="Visualizar"></a></div></td>
 														<td width="5%"><div align="center"><a href="{% url 'sgpa2016:editar_usuarios' user.id %}"><img src="/static/img/modificar.png" width="16" height="16" border="0" title="Modificar"></a></div></td>
 														<td width="5%"><div align="center"><a href="{% url 'sgpa2016:eliminar_usuarios' user.id %}"><img src="/static/img/eliminar.png" width="16" height="16" border="0" title="Eliminar"></a></div></td>

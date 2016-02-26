@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.models import User
 
 from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm
-from .models import Usuarios, Permisos, Roles, Permisos_Roles, Roles_Usuarios
+from .models import Usuarios, Permisos, Roles, Permisos_Roles, Roles_Usuarios, Proyectos
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -95,7 +95,6 @@ def registrar_usuarios(request):
             email = cleaned_data.get('email')
             first_name = cleaned_data.get('first_name')
             last_name = cleaned_data.get('last_name')
-            activo = cleaned_data.get('activo')
             telefono = cleaned_data.get('telefono')
             direccion = cleaned_data.get('direccion')
             tipo = cleaned_data.get('tipo')
@@ -105,7 +104,7 @@ def registrar_usuarios(request):
             user_model.email = email
             user_model.first_name = first_name
             user_model.last_name = last_name
-            user_model.is_active = activo
+            user_model.is_active = True
             user_model.save()
                 
             user_profile = Usuarios()
@@ -245,13 +244,6 @@ def modificar_contrasena(request):
     else:
         form = ModificarContrasenaForm(user=user)
     return render(request, 'usuarios/modificar_contrasena.html', {'form': form, 'usuario':usuario, 'saludo':saludo})
-    
-@login_required(login_url='/ingresar')
-def asignar_rol_usuario(request, user_id, rol_id):
-    rol = Roles.objects.get(pk=rol_id)
-    usuario = Usuarios.objects.get(pk=user_id)
-    ru = Roles_Usuarios(roles=rol, usuario=usuario)
-    ru.save() 
 
 @login_required(login_url='/ingresar')
 def eliminar_usuarios(request, user_id):
@@ -297,6 +289,34 @@ def ver_usuarios(request, user_id):
     
     return render_to_response('usuarios/ver.html', {'usuario':usuario, 'saludo':saludo, 'um':user_model, 'up':user_profile})
 
+def asignar_roles_usuarios_proyecto(request, user_id):
+    aid = 5
+    comprobar(request)
+    if(request.user.is_anonymous()):
+        return HttpResponseRedirect('/ingresar')
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    request.session['last_activity'] = str(now)
+    
+    usuario = request.user
+    saludo = saludo_dia()
+    
+    user_profile = get_object_or_404(Usuarios, id=user_id)
+    user_model = get_object_or_404(User, id=user_id)
+    roles = Roles.objects.all()
+    proyectos = Proyectos.objects.all()
+    permisos1 = Permisos.objects.all().filter(nivel=1)
+    permisos2 = Permisos.objects.all().filter(nivel=2)
+    permisos3 = Permisos.objects.all().filter(nivel=3)
+    permisos = map(None, permisos1, permisos2, permisos3)
+
+    if request.method == 'POST':
+        results = User.objects.filter(is_active=True)
+        uid = request.POST.get('id', None)
+        
+        return render_to_response('usuarios/results.html', {'usuario':usuario, 'saludo':saludo, 'results':results}, context_instance=RequestContext(request))
+    else:
+        form = BuscarUserForm()
+    return render(request, 'usuarios/editar.html', {'form': form, 'roles':roles, 'permisos':permisos, 'usuario':usuario, 'saludo':saludo, 'um':user_model, 'up':user_profile})
 
 
 """Administración de Roles"""
@@ -523,24 +543,22 @@ def delete_roles(request, rol_id):
     
     
 def crear_permisos():
-    nombres = ['Asignación de Usuario', 'Administración de Roles y Permisos', 'Creación de US', 
-               'Modificación de US - Valores de Negocios', 'Modificación de US - Valor Técnico', 
+    nombres = ['Asignacións de Usuarios', 'Administración de Roles y Permisos', 'Creación de US', 
+               'Asignación de Roles', 'Modificación de US - Valores de Negocios', 'Modificación de US - Valor Técnico', 
                'Modificación de US - Size', 'Modificación de US - Prioridad', 'Eliminación de US', 
-               'Administración de Sprints', 'Administración de Flujos', 'Consultar lista de Clientes', 
+               'Administración de Sprints', 'Administración de Flujos', 'Consultar lista de Usuarios', 
                'Consultar lista de Proyectos/Servicios', 'Modificación de US - Notas', 
                'Modificación de US - Archivos adjuntos', 'Modificación de US - Descripción', 
                'Consultar estado de Actividades', 'Consultar Recursos Disponibles', 
-               'Consultar Histoiral del Proyecto/Servicio', 'Generar Burn Down Chart', 'Generar listado de US',
-               'Generar gráficos por avance del Proyecto/Servicio']
+               'Consultar Historial del Proyecto/Servicio', 'Generar Burn Down Chart', 'Generar listado de US']
     niveles = [1, 1, 1, 
-               1, 1,
+               1, 1, 1,
                1, 1, 1,
                1, 1, 1,
                1, 2,
                2, 2,
                2, 2,
-               3, 3, 3,
-               3]
+               3, 3, 3]
     c = 0
     for n in nombres:
         agregar_permisos(n, niveles[c])

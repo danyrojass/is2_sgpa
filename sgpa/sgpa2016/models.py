@@ -30,7 +30,6 @@ class Usuarios(models.Model):
     tipo = models.CharField(max_length=2, default="")
     observacion = models.CharField(max_length=50, default="")
     roles = models.ManyToManyField(Roles, through='Roles_Usuarios')
-    permisos = models.ManyToManyField(Permisos, through='Permisos_Usuarios')
     
     def __str__(self):
         return self.user.username
@@ -45,10 +44,17 @@ class Roles_Usuarios(models.Model):
     
     def __str__(self):
         return self.roles
-    
-class Permisos_Usuarios(models.Model):
-    permisos = models.ForeignKey(Permisos)
-    usuario = models.ForeignKey(Usuarios)
+
+class Proyectos(models.Model):
+    nombre_largo = models.CharField(max_length=15, default="")
+    nombre_corto = models.CharField(max_length=15, default="")
+    tipo = models.BooleanField(default=False) #True: Proyecto. False: Servicio.
+    descripcion = models.CharField(max_length=15, default="")
+    fecha_inicio = models.DateField()
+    fecha_fin_estimado = models.DateField()
+    fecha_fin_real = models.DateField()
+    observaciones = models.CharField(max_length=15, default="")
+    estado = models.IntegerField(default=4) #1: Pendiente. 2: Anulado. 3: Activo. 4: Finalizado.
     
     def __str__(self):
-        return self.permisos
+        return self.nombre

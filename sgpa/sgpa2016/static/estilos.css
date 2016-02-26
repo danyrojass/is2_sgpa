@@ -19,28 +19,28 @@
 }
 
 .button{
-border: solid 1px #da7c0c;
-	background: #f78d1d;
-	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	border: solid 1px #1E4D7B;
+	background: #224352;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0080FF), to(#4AA5FF));
 	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
 	color: #fff;
-padding: 1px 20px;
--webkit-border-radius:4px;
-   -moz-border-radius:4px;
-        border-radius:3px;
-float: none;
-margin-left: 0px;
-cursor: pointer;
-font-family: Ubuntu,Verdana,Arial,sans-serif;
-font-size: 15px;
-font-weight: bold;
-}
+	padding: 1px 20px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:3px;
+	float: none;
+	margin-left: 0px;
+	cursor: pointer;
+	font-family: Ubuntu,Verdana,Arial,sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	}
 
 
 .button:hover{
 background: #f47c20;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+	background: -webkit-gradient(linear, left top, left bottom, from(#1E4D7B), to(#1E4D7B));
 	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
 }
@@ -747,7 +747,7 @@ background: #f47c20;
 /*****************************************/
 /* clases relativas a tablas             */
 .header {
-	background-color:#da7c0c;
+	background-color: #1E667B;
 	color:#060606;
 	/* text-transform:uppercase; */
 	text-align:center;
