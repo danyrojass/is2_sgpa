@@ -73,10 +73,23 @@ class Migration(migrations.Migration):
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
+        migrations.CreateModel(
+            name='Usuarios_Proyectos',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('proyecto', models.ForeignKey(to='sgpa2016.Proyectos')),
+                ('usuarios', models.ForeignKey(to='sgpa2016.Usuarios')),
+            ],
+        ),
         migrations.AddField(
             model_name='roles_usuarios',
             name='usuario',
             field=models.ForeignKey(to='sgpa2016.Usuarios'),
+        ),
+        migrations.AddField(
+            model_name='proyectos',
+            name='usuarios',
+            field=models.ManyToManyField(to='sgpa2016.Usuarios', through='sgpa2016.Usuarios_Proyectos'),
         ),
         migrations.AddField(
             model_name='permisos_roles',

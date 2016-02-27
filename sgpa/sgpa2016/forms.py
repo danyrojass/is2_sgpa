@@ -203,3 +203,8 @@ class EditarRolForm(forms.Form):
         if Roles.objects.filter(nombre=nombre).exclude(id=self.rol_id):
             raise forms.ValidationError('Nombre de rol ya registrado.')
         return nombre
+
+class AsignarRolForm(forms.Form):
+    rol_id = forms.IntegerField()
+    proyecto_id = forms.IntegerField()
+    

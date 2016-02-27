@@ -3,8 +3,8 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.models import User
 
-from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm
-from .models import Usuarios, Permisos, Roles, Permisos_Roles, Roles_Usuarios, Proyectos
+from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm, AsignarRolForm
+from .models import Usuarios, Permisos, Roles, Permisos_Roles, Roles_Usuarios, Proyectos, Usuarios_Proyectos
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -304,19 +304,25 @@ def asignar_roles_usuarios_proyecto(request, user_id):
     user_model = get_object_or_404(User, id=user_id)
     roles = Roles.objects.all()
     proyectos = Proyectos.objects.all()
-    permisos1 = Permisos.objects.all().filter(nivel=1)
-    permisos2 = Permisos.objects.all().filter(nivel=2)
-    permisos3 = Permisos.objects.all().filter(nivel=3)
-    permisos = map(None, permisos1, permisos2, permisos3)
 
     if request.method == 'POST':
-        results = User.objects.filter(is_active=True)
-        uid = request.POST.get('id', None)
-        
-        return render_to_response('usuarios/results.html', {'usuario':usuario, 'saludo':saludo, 'results':results}, context_instance=RequestContext(request))
+        form = AsignarRolForm(request.POST)
+        if form.is_valid():
+            rol_id = request.POST.get('rol_id', None)
+            proyecto_id = request.POST.get('proyecto_id', None)
+            
+            rol = get_object_or_404(Roles, id=rol_id) 
+            ru = Roles_Usuarios(usuario=user_profile, roles=rol)
+            ru.save()
+
+            proyecto = get_object_or_404(Proyectos, id=proyecto_id)
+            up = Usuarios_Proyectos(proyecto=proyecto, usuarios=user_profile)
+            up.save()
+            
+            return render_to_response('usuarios/gracias.html', {'aid':aid, 'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))
     else:
-        form = BuscarUserForm()
-    return render(request, 'usuarios/editar.html', {'form': form, 'roles':roles, 'permisos':permisos, 'usuario':usuario, 'saludo':saludo, 'um':user_model, 'up':user_profile})
+        form = AsignarRolForm()
+    return render(request, 'usuarios/asignar.html', {'form': form, 'roles':roles, 'proyectos':proyectos, 'usuario':usuario, 'saludo':saludo, 'um':user_model, 'up':user_profile})
 
 
 """Administración de Roles"""
@@ -543,7 +549,7 @@ def delete_roles(request, rol_id):
     
     
 def crear_permisos():
-    nombres = ['Asignacións de Usuarios', 'Administración de Roles y Permisos', 'Creación de US', 
+    nombres = ['Asignación de Usuarios', 'Administración de Roles y Permisos', 'Creación de US', 
                'Asignación de Roles', 'Modificación de US - Valores de Negocios', 'Modificación de US - Valor Técnico', 
                'Modificación de US - Size', 'Modificación de US - Prioridad', 'Eliminación de US', 
                'Administración de Sprints', 'Administración de Flujos', 'Consultar lista de Usuarios', 

@@ -55,6 +55,14 @@ class Proyectos(models.Model):
     fecha_fin_real = models.DateField()
     observaciones = models.CharField(max_length=15, default="")
     estado = models.IntegerField(default=4) #1: Pendiente. 2: Anulado. 3: Activo. 4: Finalizado.
+    usuarios = models.ManyToManyField(Usuarios, through='Usuarios_Proyectos')
     
     def __str__(self):
         return self.nombre
+    
+class Usuarios_Proyectos(models.Model):
+    proyecto = models.ForeignKey(Proyectos)
+    usuarios = models.ForeignKey(Usuarios)
+    
+    def __str__(self):
+        return self.usuarios

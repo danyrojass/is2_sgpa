@@ -39,7 +39,7 @@
 									<td width="36%"><option selected="selected" disabled="disabled">--- Selecciona un Rol ---</option> 
 										{% if roles %}
 											{% for r in roles %}
-												<option value="{{r.id}}">{{r.nombre}}</option>
+												<option value="{{r.id}}" id="rol_id">{{r.nombre}}</option>
 									</td>
 								</tr>
 								<tr>
@@ -47,7 +47,7 @@
 									<td width="36%"><option selected="selected" disabled="disabled">--- Selecciona un Proyecto ---</option> 
 										{% if proyectos %}
 											{% for p in proyectos %}
-												<option value="{{p.id}}">{{p.nombre}}</option>
+												<option value="{{p.id}}" id="proyecto_id">{{p.nombre}}</option>
 									</td>
 								</tr>			
 							</table>	
