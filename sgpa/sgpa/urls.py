@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^ingresar/$','sgpa2016.views.ingresar'),
     url(r'^index/$','sgpa2016.views.index'),
     url(r'^cerrar/$', 'sgpa2016.views.cerrar'),
+    url(r'^creditos/$', 'sgpa2016.views.creditos'),
 ]

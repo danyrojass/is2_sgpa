@@ -12,6 +12,7 @@
 		  		<li><a href='/'>Inicio</a></li>
 		  		<li><a href='/sgpa/usuarios/index/'>Usuarios</a></li>
 		  		<li><a href='/sgpa/roles/index/'>Roles</a></li>
+		  		<li><a href='/sgpa/proyectos/index/'>Proyectos</a></li>
 		  		<li><a href='/cerrar'>Cerrar</a></li>
     		</ul>
 		</nav>
@@ -91,7 +92,32 @@
 	        				</div>
 						</div>
 					{% elif aid == 5%}
-						<div id="tituloForm" class="header">ROL ASIGNADO</div>
+						<div id="tituloForm" class="header">ROL Y PROYECTOS ASIGNADOS A USUARIO</div>
+							<div id="frmBusqueda">
+									<table class="fuente8" width="98%" cellspacing=0 cellpadding=3 border=0>
+									
+										<tr>
+											<td width="15%"><b>ID</b></td>
+											<td width="85%" colspan="2">{{um.id}}</td>
+									    </tr>
+									    
+										<tr>
+											<td width="15%"><b>Nombre de Usuario</b></td>
+										    <td width="85%" colspan="2">{{um.username}}</td>
+									    </tr>
+									    
+									    <tr>
+											<td width="15%"><b>Rol</b></td>
+										    <td width="85%" colspan="2">{{r.nombre}}</td>
+									    </tr>
+									    
+									    <tr>
+											<td width="15%"><b>Proyecto</b></td>
+										    <td width="85%" colspan="2">{{p.nombre_largo}}</td>
+									    </tr>
+									    
+								</table>
+							</div>
 							<div id="botonBusqueda">
 	        					<p align="center">Los cambios han sido guardados.  <img src="/static/img/disco.png" alt="Guardados"/></p>
 	        				</div>

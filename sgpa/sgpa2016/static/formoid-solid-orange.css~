@@ -907,10 +907,10 @@ Not advised to edit stuff below this line
 }
 .formoid-solid-orange .rating:hover .rating-star:hover:after,
 .formoid-solid-orange .rating:hover .rating-star:hover ~ .rating-star:after {
-  color: #95A8BB;
+  color: #F2B968;
 }
 .formoid-solid-orange .rating-input:checked ~ .rating-star:after {
-  color: #0080FF;
+  color: #ED9C28;
 }
 
 
@@ -949,7 +949,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange input[type=file]:focus ~ .icon-place:before,
 .formoid-solid-orange .button:focus ~ .icon-place:before,
 .formoid-solid-orange .file_text:focus ~ .icon-place:before {
-  color: #0080FF;
+  color: #ED9C28;
 }
 
 
@@ -961,12 +961,12 @@ Not advised to edit stuff below this line
 .formoid-solid-orange .dropdown-menu li.selected > a.highlighted,
 .formoid-solid-orange .dropdown-inverse li.active > a,
 .formoid-solid-orange .dropdown-inverse li.selected > a {
-  background-color: #0080FF;
+  background-color: #ED9C28;
 }
 .formoid-solid-orange .btn.btn-primary:hover,
 .formoid-solid-orange .btn.btn-primary:focus,
 .formoid-solid-orange .btn-group:focus .btn.btn-primary.dropdown-toggle {
-  border-color: #95A8BB;
+  border-color: #F2B968;
 }
 .formoid-solid-orange .btn.btn-primary:active,
 .formoid-solid-orange .btn-group.open .btn.btn-primary.dropdown-toggle,
@@ -979,13 +979,13 @@ Not advised to edit stuff below this line
 .formoid-solid-orange .dropdown-menu li.selected > a:focus,
 .formoid-solid-orange .dropdown-menu li.active > a.highlighted:focus,
 .formoid-solid-orange .dropdown-menu li.selected > a.highlighted:focus {
-  border-color: #0080FF;
+  border-color: #ED9C28;
 }
 .formoid-solid-orange .dropdown-arrow {
-  border-bottom: 8px solid #0080FF;
+  border-bottom: 8px solid #ED9C28;
 }
 .formoid-solid-orange .dropdown-menu {
-  border: 2px solid #0080FF;
+  border: 2px solid #ED9C28;
 }
 
 
@@ -993,10 +993,10 @@ Not advised to edit stuff below this line
 
 /* datepicker */
 .datepicker {
-  border: 2px solid #0080FF;
+  border: 2px solid #ED9C28;
 }
 .datepicker:before {
-  border-bottom: 7px solid #0080FF;
+  border-bottom: 7px solid #ED9C28;
 }
 .datepicker td.active,
 .datepicker td.active:hover,
@@ -1024,7 +1024,7 @@ Not advised to edit stuff below this line
 .datepicker td span.active[disabled]{
   color: #ffffff;
   background-image: none;
-  background-color: #0080FF;
+  background-color: #ED9C28;
 }
 
 /* .formoid-solid-orange color scheme begin end *//* 

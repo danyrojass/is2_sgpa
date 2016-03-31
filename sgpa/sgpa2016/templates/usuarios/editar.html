@@ -12,6 +12,7 @@
 		  		<li><a href='/'>Inicio</a></li>
 		  		<li><a href='/sgpa/usuarios/index/'>Usuarios</a></li>
 		  		<li><a href='/sgpa/roles/index/'>Roles</a></li>
+		  		<li><a href='/sgpa/proyectos/index/'>Proyectos</a></li>
 		  		<li><a href='/cerrar'>Cerrar</a></li>
     		</ul>
 		</nav>
@@ -68,7 +69,18 @@
 								      	<tr>
 										  	<td><b>Observación</b></td>
 										 	<td><input NAME="observacion" type="text" class="cajaGrande" id="observacion" size="45" maxlength="50" value=""></td>
-								      	</tr>      	      	
+								      	</tr>
+								      	
+								      	<tr>
+								      		<td><b>Observación</b></td>
+								      		<td>
+										      	<select name="estado" id="estado">
+													<option selected="selected" disabled="disabled">--- Selecciona un Estado ---</option>
+													<option value="True">Activo</option>
+													<option value="False">No Activo</option>
+												</select> 
+											</td>
+										</tr>      	
 								      	
 									</table>
 								</div>

@@ -12,6 +12,7 @@
 		  		<li><a href='/'>Inicio</a></li>
 		  		<li><a href='/sgpa/usuarios/index/'>Usuarios</a></li>
 		  		<li><a href='/sgpa/roles/index/'>Roles</a></li>
+		  		<li><a href='/sgpa/proyectos/index/'>Proyectos</a></li>
 		  		<li><a href='/cerrar'>Cerrar</a></li>
     		</ul>
 		</nav>
@@ -32,16 +33,17 @@
 									<td width="15%">NOMBRES </td>
 									<td width="15%">APELLIDOS </td>
 									<td width="20%">EMAIL</td>
-									<td width="5%">&nbsp;</td>
-									<td width="5%">&nbsp;</td>
-									<td width="5%">&nbsp;</td>
-									<td width="5%">&nbsp;</td>
+									<td width="5%">Assign</td>
+									<td width="5%">Read</td>
+									<td width="5%">Update</td>
+									<td width="5%">Delete</td>
+									<td width="10%">&nbsp;</td>
 								</tr>
 							</table>
 							<div class="ScrollStyle">
 							<table class="fuente8" width="100%" cellspacing=0 cellpadding=3 border=0 ID="Table1">
-								{% if usuarios and filas > 0 %}
-									{% for user in usuarios %}
+								{% if results %}
+									{% for user in results %}
 										{% if user.is_active == True %}
 											{% if user.id != usuario.id %}
 												{% if forloop.counter|divisibleby:2  %}

@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 import string
-from .models import Roles
+from .models import Roles, Proyectos
 
 
 TIPOS = ( 
@@ -109,7 +109,8 @@ class EditarUserForm(forms.Form):
     last_name = forms.CharField(max_length=30)
     direccion = forms.CharField(required=False, max_length=45)
     observacion = forms.CharField(required=False, max_length=50)
-
+    estado = forms.BooleanField(required=False)
+    
 class ModificarContrasenaForm(forms.Form):
     actual_password = forms.CharField(min_length=10)
     password = forms.CharField(min_length=10)
@@ -160,7 +161,6 @@ class ModificarContrasenaForm(forms.Form):
         if password != password2:
             raise forms.ValidationError('Las contraseñas no coinciden.')
         return password2
-    
 
 class BuscarUserForm(forms.Form):
     id = forms.IntegerField(required=False)
@@ -170,7 +170,7 @@ class BuscarUserForm(forms.Form):
     last_name = forms.CharField(required=False)
     
 class CrearRolForm(forms.Form):
-    nombre = forms.CharField(max_length=50)
+    nombre = forms.CharField(max_length=25)
     tipo = forms.BooleanField(required=False)
     estado = forms.BooleanField(required=False)
     observacion = forms.CharField(max_length=50, required=False)
@@ -183,12 +183,12 @@ class CrearRolForm(forms.Form):
         return nombre
     
 class BuscarRolForm(forms.Form):
+    id = forms.IntegerField(required=False)
     nombre = forms.CharField(required=False)
-    tipo = forms.BooleanField(required=False)
     observacion = forms.CharField(required=False)
     
 class EditarRolForm(forms.Form):
-    nombre = forms.CharField(max_length=50)
+    nombre = forms.CharField(max_length=25)
     tipo = forms.BooleanField(required=False)
     observacion = forms.CharField(max_length=50, required=False)
     
@@ -207,4 +207,28 @@ class EditarRolForm(forms.Form):
 class AsignarRolForm(forms.Form):
     rol_id = forms.IntegerField()
     proyecto_id = forms.IntegerField()
+
+class CrearProyectoForm(forms.Form):
+    nombre_largo = forms.CharField(max_length=25)
     
+    def clean_nombre_largo(self):
+        """Comprueba que no exista un nombre igual en la db"""
+        nombre_largo = self.cleaned_data['nombre_largo']
+        
+        if Proyectos.objects.filter(nombre_largo=nombre_largo):
+            raise forms.ValidationError('Nombre de proyecto ya registrado.')
+        return nombre_largo
+    
+class DefinirProyectoForm(forms.Form):
+    nombre_corto = forms.CharField(max_length=10)
+    tipo = forms.BooleanField()
+    descripcion = forms.CharField(max_length=50)
+    fecha_inicio = forms.DateField()
+    fecha_fin_estimado = forms.DateField()
+    observaciones = forms.CharField(max_length=50, required=False)
+
+class BuscarProyectoForm(forms.Form):
+    id = forms.IntegerField(required=False)
+    nombre_largo = forms.CharField(required=False)
+    nombre_corto = forms.CharField(required=False)
+    descripcion = forms.CharField(required=False)

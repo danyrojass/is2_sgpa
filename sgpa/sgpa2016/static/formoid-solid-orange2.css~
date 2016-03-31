@@ -14,7 +14,7 @@ html{
   height: 100%;
 }
 .formoid-solid-orange{
-  margin:45px auto;
+  margin:0 auto;
 }
 .formoid-solid-orange>div,
 .formoid-solid-orange>.title{
@@ -169,7 +169,7 @@ Solid style
 
 */
 @font-face {
-  font-family: Jura;
+  font-family: formoid;
   src:url('formoid.eot');
   src:url('formoid.eot?#iefix') format('embedded-opentype'),
   url('formoid.ttf') format('truetype'),
@@ -517,7 +517,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange select{
   border-style: solid;
   border-width: 2px;
-  border-color: #bdc3c7;
+  border-color: #95A8BB;
   -webkit-transition: border-color 0.5s ease-in-out;
   transition: border-color 0.5s ease-in-out;
   border-radius:3px;
@@ -590,13 +590,13 @@ Not advised to edit stuff below this line
   top: 15px;
   left: 0.9em;
   pointer-events: none;
-  color: #A2A6A8;
+  color: #95A8BB;
   z-index: 2;
 }
 
-.formoid-solid-orange .element-input .item-cont .icon-place:before,
+
 .formoid-solid-orange .element-textarea .item-cont .icon-place:before {
-  content: '\e80B';
+  content: '\e800';
 }
 .formoid-solid-orange .element-select .item-cont .icon-place:before,
 .formoid-solid-orange .element-multiple .item-cont .icon-place:before,
@@ -618,7 +618,7 @@ Not advised to edit stuff below this line
   content: '\e805';
 }
 .formoid-solid-orange .element-url .item-cont .icon-place:before {
-  content: '\e806';
+  content: '\e800';
 }
 .formoid-solid-orange .element-password .item-cont .icon-place:before {
   content: '\e807';
@@ -626,6 +626,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange .element-phone .item-cont .icon-place:before {
   content: '\e808';
 }
+.formoid-solid-orange .element-input .item-cont .icon-place:before,
 .formoid-solid-orange .element-name .nameFirst .icon-place:before,
 .formoid-solid-orange .element-name .nameLast .icon-place:before {
   content: '\e80B';
@@ -674,8 +675,8 @@ Not advised to edit stuff below this line
 }
 .formoid-solid-orange .element-address .state,
 .formoid-solid-orange .element-address .country{
-  width: 47%;
-  *width: 44%;
+  width: 100%;
+  *width: 100%;
   display: inline-block;
   zoom: 1;
   *display: inline;
@@ -704,7 +705,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange .recaptchatable #recaptcha_image,
 .formoid-solid-orange .recaptchatable #recaptcha_challenge_field_holder input{
   border-collapse: separate !important;
-  border: 2px solid #BDC3C7 !important;
+  border: 2px solid #0080FF !important;
   border-radius: 6px;
 }
 .formoid-solid-orange .recaptchatable #recaptcha_image img{
@@ -716,7 +717,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange .error,
 .formoid-solid-orange .error #recaptcha_widget_div{
   display: block;
-  background-color: #FBDBCF;
+  background-color: #95A8BB;
   text-shadow: none;
   border: none;
   padding: 15px;
@@ -747,7 +748,7 @@ Not advised to edit stuff below this line
 .tooltip.bottom .tooltip-arrow {
   top: -8px;
   left: 20px;
-  border-bottom-color: #FBDBCF;
+  border-bottom-color: #95A8BB;
   border-width: 0 8px 8px;
 }
 .alert {
@@ -828,7 +829,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange input[type=button]:active,
 .formoid-solid-orange input[type=button]:hover,
 .formoid-solid-orange input[type=button][disabled] {
-  border-color: #ED9C28;
+  border-color: #0080FF;
 }
 .formoid-solid-orange div.title{
   background-color: #0080FF;
@@ -849,10 +850,10 @@ Not advised to edit stuff below this line
 
 /* File input */
 .formoid-solid-orange .element-file .button {
-  background-color: #ED9C28;
+  background-color: #0080FF;
 }
 .formoid-solid-orange .element-file .file_text{
-  border-color: #bdc3c7;
+  border-color: #95A8BB;
 }
 .formoid-solid-orange .element-file label:hover .file_text{
   border-color: #F2B968;
@@ -861,16 +862,16 @@ Not advised to edit stuff below this line
   background-color: #F2B968;
 }
 .formoid-solid-orange .element-file .button:active {
-  background-color: #CE8114;
+  background-color: #95A8BB;
 }
 .formoid-solid-orange .element-file label:active .file_text{
-  border-color: #ED9C28;
+  border-color: #95A8BB;
 }
 
 /* element-submit + element-text */
 .formoid-solid-orange > .submit,
 .formoid-solid-orange > .title{
-  background-color: #bcc3ca;
+  background-color: #95A8BB;
 }
 .formoid-solid-orange > .submit{
   background-color: #edeff1;
@@ -885,29 +886,29 @@ Not advised to edit stuff below this line
   border-color: #F2B968;
 }
 .formoid-solid-orange input[type=checkbox]:checked+span:before{
-  color: #ED9C28;
-  border-color: #ED9C28;
+  color: #0080FF;
+  border-color: #0080FF;
 }
 
 /* radio */
 .formoid-solid-orange input[type=radio]+span:before{
-  color: #bdc3c7;
+  color: #95A8BB;
 }
 .formoid-solid-orange input[type=radio]:hover+span:before{
-  color: #F2B968;
+  color: #95A8BB;
 }
 .formoid-solid-orange input[type=radio]:checked+span:before{
-  color: #ED9C28;
+  color: #0080FF;
 }
 
 /* rating */
 .formoid-solid-orange .rating-star:after,
 .formoid-solid-orange .rating:hover .rating-star:after {
-  color: #bdc3c7;
+  color: #95A8BB;
 }
 .formoid-solid-orange .rating:hover .rating-star:hover:after,
 .formoid-solid-orange .rating:hover .rating-star:hover ~ .rating-star:after {
-  color: #95A8BB;
+  color: #F2B968;
 }
 .formoid-solid-orange .rating-input:checked ~ .rating-star:after {
   color: #0080FF;
@@ -924,7 +925,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange input[type=file]:hover,
 .formoid-solid-orange textarea:hover,
 .formoid-solid-orange select:hover {
-  border-color: #95A8BB;
+  border-color: #F2B968;
 }
 .formoid-solid-orange input[type=text]:focus,
 .formoid-solid-orange input[type=tel]:focus,
@@ -966,7 +967,7 @@ Not advised to edit stuff below this line
 .formoid-solid-orange .btn.btn-primary:hover,
 .formoid-solid-orange .btn.btn-primary:focus,
 .formoid-solid-orange .btn-group:focus .btn.btn-primary.dropdown-toggle {
-  border-color: #95A8BB;
+  border-color: #F2B968;
 }
 .formoid-solid-orange .btn.btn-primary:active,
 .formoid-solid-orange .btn-group.open .btn.btn-primary.dropdown-toggle,

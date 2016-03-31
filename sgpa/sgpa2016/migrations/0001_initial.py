@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django.utils.timezone
 from django.conf import settings
 
 
@@ -32,22 +33,22 @@ class Migration(migrations.Migration):
             name='Proyectos',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('nombre_largo', models.CharField(default=b'', max_length=15)),
-                ('nombre_corto', models.CharField(default=b'', max_length=15)),
+                ('nombre_largo', models.CharField(default=b'', max_length=25)),
+                ('nombre_corto', models.CharField(default=b'', max_length=10)),
                 ('tipo', models.BooleanField(default=False)),
-                ('descripcion', models.CharField(default=b'', max_length=15)),
-                ('fecha_inicio', models.DateField()),
-                ('fecha_fin_estimado', models.DateField()),
-                ('fecha_fin_real', models.DateField()),
-                ('observaciones', models.CharField(default=b'', max_length=15)),
-                ('estado', models.IntegerField(default=4)),
+                ('descripcion', models.CharField(default=b'', max_length=50)),
+                ('fecha_inicio', models.DateField(default=django.utils.timezone.now)),
+                ('fecha_fin_estimado', models.DateField(default=django.utils.timezone.now)),
+                ('fecha_fin_real', models.DateField(default=django.utils.timezone.now)),
+                ('observaciones', models.CharField(default=b'', max_length=50)),
+                ('estado', models.IntegerField(default=1)),
             ],
         ),
         migrations.CreateModel(
             name='Roles',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('nombre', models.CharField(default=b'', max_length=50)),
+                ('nombre', models.CharField(default=b'', max_length=25)),
                 ('tipo', models.BooleanField(default=False)),
                 ('estado', models.BooleanField(default=False)),
                 ('observacion', models.CharField(default=b'', max_length=50)),

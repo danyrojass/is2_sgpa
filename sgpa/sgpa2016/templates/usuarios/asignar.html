@@ -12,6 +12,7 @@
 		  		<li><a href='/'>Inicio</a></li>
 		  		<li><a href='/sgpa/usuarios/index/'>Usuarios</a></li>
 		  		<li><a href='/sgpa/roles/index/'>Roles</a></li>
+		  		<li><a href='/sgpa/proyectos/index/'>Proyectos</a></li>
 		  		<li><a href='/cerrar'>Cerrar</a></li>
     		</ul>
 		</nav>
@@ -20,7 +21,7 @@
 		<div id="pagina">
 			<div id="zonaContenido">
 				<div align="center">
-					<div id="tituloForm" class="header">ASIGNAR ROL</div>
+					<div id="tituloForm" class="header">ASIGNAR ROL-PROYECTO</div>
 					<div id="frmBusqueda">
 						<form id="formulario" name="formulario" method="post" action="">{% csrf_token %}{{ form.errors }} 
 							<table class="fuente8" width="98%" cellspacing=0 cellpadding=3 border=0>
@@ -36,18 +37,28 @@
 										
 								<tr>
 									<td width="14%"><b>Rol</b></td>
-									<td width="36%"><option selected="selected" disabled="disabled">--- Selecciona un Rol ---</option> 
-										{% if roles %}
-											{% for r in roles %}
-												<option value="{{r.id}}" id="rol_id">{{r.nombre}}</option>
+									<td width="36%">
+										<select id="rol_id" name="rol_id" class="comboGrande">
+											<option selected="selected" disabled="disabled">--- Selecciona un Rol ---</option> 
+												{% if roles %}
+													{% for r in roles %}
+														<option value="{{r.id}}" id="rol_id">{{r.nombre}}</option>
+													{% endfor %}
+												{% endif %}
+										</select>
 									</td>
 								</tr>
 								<tr>
 									<td width="14%"><b>Proyecto</b></td>
-									<td width="36%"><option selected="selected" disabled="disabled">--- Selecciona un Proyecto ---</option> 
-										{% if proyectos %}
-											{% for p in proyectos %}
-												<option value="{{p.id}}" id="proyecto_id">{{p.nombre}}</option>
+									<td width="36%">
+										<select id="proyecto_id" name="proyecto_id" class="comboGrande">
+											<option selected="selected" disabled="disabled">--- Selecciona un Proyecto ---</option> 
+												{% if proyectos %}
+													{% for p in proyectos %}
+														<option value="{{p.id}}">{{p.nombre_largo}}</option>
+													{% endfor %}
+												{% endif %}
+										</select>
 									</td>
 								</tr>			
 							</table>	
@@ -61,5 +72,4 @@
 			</div>
 		</div>
 			
-
 {% endblock content %}
