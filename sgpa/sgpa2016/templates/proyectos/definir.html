@@ -38,7 +38,7 @@
 		<div id="pagina">
 			<div id="zonaContenido">
 				<div align="center">
-					<div id="tituloForm" class="header">CREAR ROL</div>
+					<div id="tituloForm" class="header">DEFINIR PROYECTO</div>
 					<div id="frmBusqueda">
 						<form id="formulario" name="formulario" method="post" action="">{% csrf_token %}{{ form.errors }} 
 							<table class="fuente8" width="98%" cellspacing=0 cellpadding=3 border=0>
@@ -74,13 +74,13 @@
 								
 								<tr>
 									<td><b>Fecha Fin</b></td>
-									<td><input NAME="fecha_fin" type="text" class="cajaPequena" id="fecha_fin" size="10" maxlength="10" readonly> <img src="/static/img/calendario.png" name="Image1" id="Image1" width="16" height="16" border="0" id="Image1" onMouseOver="this.style.cursor=cursor">
+									<td><input NAME="fecha_fin_estimado" type="text" class="cajaPequena" id="fecha_fin_estimado" size="10" maxlength="10" readonly> <img src="/static/img/calendario.png" name="Image2" id="Image2" width="16" height="16" border="0" id="Image2" onMouseOver="this.style.cursor=cursor">
 									<script type="text/javascript">
 										Calendar.setup(
 											{
-											inputField : "fecha_fin",
+											inputField : "fecha_fin_estimado",
 											ifFormat   : "%d/%m/%Y",
-											button     : "Image1"
+											button     : "Image2"
 											}
 										);
 									</script></td>
@@ -95,8 +95,8 @@
 					</div>
 					
 					<div id="botonBusqueda">
-						<button class="button" type="submit">CREAR ROL</button>
-				  		<a href="{% url 'sgpa2016:index_roles'%}" class="button" type="submit">CANCELAR</a>
+						<button class="button" type="submit">DEFINIR PROYECTO</button>
+				  		<a href="{% url 'sgpa2016:index_proyectos'%}" class="button" type="submit">CANCELAR</a>
 					</div>
 					</form>
 				</div>

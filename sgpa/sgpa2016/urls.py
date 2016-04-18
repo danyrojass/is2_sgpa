@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^roles/(?P<rol_id>\d+)/delete/$', views.delete_roles, name='delete_roles'),
     url(r'^proyectos/crear/$', views.crear_proyectos, name='crear_proyectos'),
     url(r'^proyectos/index/$', views.index_proyectos, name='index_proyectos'),
-    url(r'^proyectos/(?P<proyecto_id>\d+)/definir/$', views.index_proyectos, name='index_proyectos'),
+    url(r'^proyectos/(?P<proyecto_id>\d+)/definir/$', views.definir_proyectos, name='definir_proyectos'),
+    url(r'^proyectos/(?P<proyecto_id>\d+)/editar/$', views.editar_proyectos, name='editar_proyectos'),
+    url(r'^proyectos/(?P<proyecto_id>\d+)/ver/$', views.ver_proyectos, name='ver_proyectos'),
 ]

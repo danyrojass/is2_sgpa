@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('nombre_largo', models.CharField(default=b'', max_length=25)),
                 ('nombre_corto', models.CharField(default=b'', max_length=10)),
-                ('tipo', models.BooleanField(default=False)),
+                ('tipo', models.BooleanField(default=True)),
                 ('descripcion', models.CharField(default=b'', max_length=50)),
                 ('fecha_inicio', models.DateField(default=django.utils.timezone.now)),
                 ('fecha_fin_estimado', models.DateField(default=django.utils.timezone.now)),

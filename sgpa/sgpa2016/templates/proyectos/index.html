@@ -106,39 +106,37 @@
 									<td width="25%">NOMBRE LARGO</td>
 									<td width="10%">NOMBRE CORTO </td>
 									<td width="35%">DESCRIPCIÓN</td>
+									<td width="5%">Define</td>
 									<td width="5%">Read</td>
 									<td width="5%">Update</td>
-									<td width="5%">Delete</td>
 									<td width="10%">&nbsp;</td>
 								</tr>
 							</table>
 							<div class="ScrollStyle">
 							<table class="fuente8" width="100%" cellspacing=0 cellpadding=3 border=0 ID="Table1">
 								{% if proyectos and filas > 0 %}
-									{% for p in proyectos %}
+									{% for proyecto in proyectos %}
 										{% if forloop.counter|divisibleby:2  %}
 											<tr class="itemImparTabla">
 												<td class="aCentro" width="8%"><div align="center">{{forloop.counter}}</div></td>
-												<td width="7%"><div align="center">{{p.id}}</div></td>
-												<td width="25%"><div align="center">{{p.nombre_largo}}</div></td>
-												<td width="10%"><div align="center">{{p.nombre_corto}}</div></td>
-												<td width="35%"><div align="center">{{p.descripcion}}</div></td>
-												<td width="5%"><div align="center"><a href="#"><img src="/static/img/ver.png" width="16" height="16" border="0" title="Visualizar"></a></div></td>
-												<td width="5%"><div align="center"><a href="#"><img src="/static/img/modificar.png" width="16" height="16" border="0" title="Modificar"></a></div></td>
-												<td width="5%"><div align="center"><a href="#"><img src="/static/img/eliminar.png" width="16" height="16" border="0" title="Eliminar"></a></div></td>
-													
+												<td width="7%"><div align="center">{{proyecto.id}}</div></td>
+												<td width="25%"><div align="center">{{proyecto.nombre_largo}}</div></td>
+												<td width="10%"><div align="center">{{proyecto.nombre_corto}}</div></td>
+												<td width="35%"><div align="center">{{proyecto.descripcion}}</div></td>
+												<td width="5%"><div align="center"><a href="{% url 'sgpa2016:definir_proyectos' proyecto.id %}"><img src="/static/img/list.png" width="16" height="16" border="0" title="Definir"></a></div></td>
+												<td width="5%"><div align="center"><a href="{% url 'sgpa2016:ver_proyectos' proyecto.id %}"><img src="/static/img/ver.png" width="16" height="16" border="0" title="Visualizar"></a></div></td>
+												<td width="5%"><div align="center"><a href="{% url 'sgpa2016:editar_proyectos' proyecto.id %}"><img src="/static/img/modificar.png" width="16" height="16" border="0" title="Modificar"></a></div></td>													
 											</tr>
 										{% else %}
 											<tr class="itemParTabla"> 
 												<td class="aCentro" width="8%"><div align="center">{{forloop.counter}}</div></td>
-												<td width="7%"><div align="center">{{p.id}}</div></td>
-												<td width="25%"><div align="center">{{p.nombre_largo}}</div></td>
-												<td width="10%"><div align="center">{{p.nombre_corto}}</div></td>
-												<td width="35%"><div align="center">{{p.descripcion}}</div></td>
-												<td width="5%"><div align="center"><a href="#"><img src="/static/img/ver.png" width="16" height="16" border="0" title="Visualizar"></a></div></td>
-												<td width="5%"><div align="center"><a href="#"><img src="/static/img/modificar.png" width="16" height="16" border="0" title="Modificar"></a></div></td>
-												<td width="5%"><div align="center"><a href="#"><img src="/static/img/eliminar.png" width="16" height="16" border="0" title="Eliminar"></a></div></td>
-																					
+												<td width="7%"><div align="center">{{proyecto.id}}</div></td>
+												<td width="25%"><div align="center">{{proyecto.nombre_largo}}</div></td>
+												<td width="10%"><div align="center">{{proyecto.nombre_corto}}</div></td>
+												<td width="35%"><div align="center">{{proyecto.descripcion}}</div></td>
+												<td width="5%"><div align="center"><a href="{% url 'sgpa2016:definir_proyectos' proyecto.id %}"><img src="/static/img/list.png" width="16" height="16" border="0" title="Definir"></a></div></td>
+												<td width="5%"><div align="center"><a href="{% url 'sgpa2016:ver_proyectos' proyecto.id %}"><img src="/static/img/ver.png" width="16" height="16" border="0" title="Visualizar"></a></div></td>
+												<td width="5%"><div align="center"><a href="{% url 'sgpa2016:editar_proyectos' proyecto.id %}"><img src="/static/img/modificar.png" width="16" height="16" border="0" title="Modificar"></a></div></td>																			
 											</tr>
 										{% endif %}
 									{% endfor %}

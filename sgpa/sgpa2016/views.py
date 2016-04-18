@@ -3,7 +3,7 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.models import User
 
-from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm, AsignarRolForm, CrearProyectoForm, DefinirProyectoForm, BuscarProyectoForm
+from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm, AsignarRolForm, CrearProyectoForm, DefinirProyectoForm, BuscarProyectoForm, EditarProyectoForm
 from .models import Usuarios, Permisos, Roles, Permisos_Roles, Roles_Usuarios, Proyectos, Usuarios_Proyectos
 
 from django.contrib.auth import authenticate, login, logout
@@ -646,14 +646,13 @@ def definir_proyectos(request, proyecto_id):
     usuario = request.user
     saludo = saludo_dia()
     
-    proyecto_creado = Proyectos.objects.filter(id=proyecto_id)
+    proyecto = get_object_or_404(Proyectos, id=proyecto_id)
     
     if request.method == 'POST':
         form = DefinirProyectoForm(request.POST, request.FILES)
     
         if form.is_valid():
             cleaned_data = form.cleaned_data
-            nombre_largo = cleaned_data.get('nombre_largo')
             nombre_corto = cleaned_data.get('nombre_corto')
             tipo = cleaned_data.get('tipo')
             descripcion = cleaned_data.get('descripcion')
@@ -661,8 +660,6 @@ def definir_proyectos(request, proyecto_id):
             fecha_fin_estimado = cleaned_data.get('fecha_fin_estimado')
             observaciones = cleaned_data.get('observaciones')
     
-            proyecto = proyecto_creado
-            proyecto.nombre_largo = nombre_largo
             proyecto.nombre_corto = nombre_corto
             proyecto.tipo = tipo
             proyecto.descripcion = descripcion
@@ -677,7 +674,63 @@ def definir_proyectos(request, proyecto_id):
     else:
         form = DefinirProyectoForm()
     
-    return render(request, 'proyectos/crear.html', {'usuario':usuario, 'saludo':saludo, 'form': form})
+    return render(request, 'proyectos/definir.html', {'usuario':usuario, 'saludo':saludo, 'form': form})
+
+def editar_proyectos(request, proyecto_id):
+    aid = 3
+    comprobar(request)
+    if(request.user.is_anonymous()):
+        return HttpResponseRedirect('/ingresar')
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    request.session['last_activity'] = str(now)
+    
+    usuario = request.user
+    saludo = saludo_dia()
+    
+    proyecto = get_object_or_404(Proyectos, id=proyecto_id)
+    
+    if request.method == 'POST':
+        form = EditarProyectoForm(request.POST, request.FILES)
+    
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            nombre_corto = cleaned_data.get('nombre_corto')
+            tipo = cleaned_data.get('tipo')
+            descripcion = cleaned_data.get('descripcion')
+            fecha_inicio = cleaned_data.get('fecha_inicio')
+            fecha_fin_estimado = cleaned_data.get('fecha_fin_estimado')
+            observaciones = cleaned_data.get('observaciones')
+    
+            proyecto.nombre_corto = nombre_corto
+            proyecto.tipo = tipo
+            proyecto.descripcion = descripcion
+            proyecto.fecha_inicio = fecha_inicio
+            proyecto.fecha_fin_estimado = fecha_fin_estimado
+            proyecto.observaciones = observaciones
+            proyecto.save()
+            
+            return render_to_response('proyectos/gracias.html', {'aid':aid, 'usuario':usuario, 'saludo':saludo, 'proyecto':proyecto}, context_instance=RequestContext(request))
+
+    else:
+        form = EditarProyectoForm()
+    
+    return render(request, 'proyectos/editar.html', {'usuario':usuario, 'saludo':saludo, 'form': form, 'proyecto':proyecto})
+
+def ver_proyectos(request, proyecto_id):
+    aid = 3
+    comprobar(request)
+    if(request.user.is_anonymous()):
+        return HttpResponseRedirect('/ingresar')
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    request.session['last_activity'] = str(now)
+    
+    usuario = request.user
+    saludo = saludo_dia()
+    
+    proyecto = get_object_or_404(Proyectos, id=proyecto_id)
+    
+    return render(request, 'proyectos/ver.html', {'usuario':usuario, 'saludo':saludo, 'proyecto':proyecto})
+
 
 def index_proyectos(request):
     comprobar(request)

@@ -232,3 +232,11 @@ class BuscarProyectoForm(forms.Form):
     nombre_largo = forms.CharField(required=False)
     nombre_corto = forms.CharField(required=False)
     descripcion = forms.CharField(required=False)
+    
+class EditarProyectoForm(forms.Form):
+    nombre_corto = forms.CharField(max_length=10)
+    tipo = forms.BooleanField()
+    descripcion = forms.CharField(max_length=50)
+    fecha_inicio = forms.DateField()
+    fecha_fin_estimado = forms.DateField()
+    observaciones = forms.CharField(max_length=50, required=False)
