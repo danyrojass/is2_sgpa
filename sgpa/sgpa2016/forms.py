@@ -2,7 +2,8 @@
 from django import forms
 from django.contrib.auth.models import User
 import string
-from .models import Roles, Proyectos
+from .models import Roles, Proyectos, Roles_Usuarios, Usuarios_Proyectos
+from django.shortcuts import get_object_or_404
 
 
 TIPOS = ( 
@@ -168,7 +169,7 @@ class BuscarUserForm(forms.Form):
     email = forms.CharField(required=False)
     first_name = forms.CharField(required=False)
     last_name = forms.CharField(required=False)
-    
+        
 class CrearRolForm(forms.Form):
     nombre = forms.CharField(max_length=25)
     tipo = forms.BooleanField(required=False)
@@ -207,7 +208,7 @@ class EditarRolForm(forms.Form):
 class AsignarRolForm(forms.Form):
     rol_id = forms.IntegerField()
     proyecto_id = forms.IntegerField()
-
+   
 class CrearProyectoForm(forms.Form):
     nombre_largo = forms.CharField(max_length=25)
     

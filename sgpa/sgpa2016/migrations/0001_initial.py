@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('telefono', models.CharField(default=b'', max_length=15)),
                 ('direccion', models.CharField(default=b'', max_length=45)),
-                ('tipo', models.CharField(default=b'', max_length=2)),
+                ('tipo', models.CharField(default=b'', max_length=10)),
                 ('observacion', models.CharField(default=b'', max_length=50)),
                 ('roles', models.ManyToManyField(to='sgpa2016.Roles', through='sgpa2016.Roles_Usuarios')),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
