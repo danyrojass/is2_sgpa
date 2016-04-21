@@ -3,7 +3,7 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.models import User
 
-from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm, AsignarRolForm, CrearProyectoForm, DefinirProyectoForm, BuscarProyectoForm, EditarProyectoForm
+from .forms import RegistroUserForm, EditarUserForm, BuscarUserForm, CrearRolForm, BuscarRolForm, EditarRolForm, ModificarContrasenaForm, AsignarRolForm, CrearProyectoForm, DefinirProyectoForm, BuscarProyectoForm, EditarProyectoForm, ElegirProyectoForm
 from .models import Usuarios, Permisos, Roles, Permisos_Roles, Roles_Usuarios, Proyectos, Usuarios_Proyectos
 
 from django.contrib.auth import authenticate, login, logout
@@ -14,7 +14,6 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from datetime import datetime
 from django.contrib.auth.hashers import make_password
-
 
 """Ingreso al sistema."""
 def inicio(request):    
@@ -56,32 +55,39 @@ def cerrar(request):
 @login_required(login_url='/ingresar')
 def index(request):
     comprobar(request)
-    if(request.user.is_anonymous()):
-        return HttpResponseRedirect('/ingresar')
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    request.session['last_activity'] = str(now)
-    
+        
     usuario = request.user
-    accion = "Ver Index de Admin"
-     
-    staff = verificar_permiso(usuario, accion)
-
-    saludo= saludo_dia()
+    us = Usuarios.objects.filter(id=usuario.id)
+    rol = get_object_or_404(Roles_Usuarios, usuario=us)
+    permiso = Permisos.objects.filter(nombre="Ver Página de Administración")
+    staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
+    
+    saludo = saludo_dia()
         
     if staff:
         return render_to_response('inicio_admin.html', {'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))    
     else:
-        return render_to_response('inicio_usuario.html', {'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))   
-
-def creditos(request):
-    comprobar(request)
-    if(request.user.is_anonymous()):
-        return HttpResponseRedirect('/ingresar')
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    request.session['last_activity'] = str(now)
+        proyectos = Proyectos.objects.filter(usuarios__id=usuario.id)
+    
+    if request.method == 'POST':
+        form = ElegirProyectoForm(request.POST, request.FILES)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            proyecto_id = cleaned_data.get('proyecto_id')
+            print proyecto_id
+            proyecto = get_object_or_404(Proyectos,id=proyecto_id)
+               
+            return render_to_response('inicio_usuario.html', {'usuario':usuario, 'proyecto':proyecto, 'saludo':saludo}, context_instance=RequestContext(request))   
+    else:
+        form = ElegirProyectoForm()
         
+    return render(request, 'elegir_proyecto.html', {'usuario':usuario, 'proyectos':proyectos, 'saludo':saludo, 'form': form})   
+    
+def creditos(request):
+    comprobar(request)        
     usuario = request.user
     saludo = saludo_dia()
+    
     return render_to_response('creditos.html', {'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))    
      
 """Administración de Usuarios"""
@@ -95,11 +101,6 @@ def registrar_usuarios(request):
     if staff:
         aid = 1
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
-            
         saludo = saludo_dia()
             
         if request.method == 'POST':
@@ -148,14 +149,9 @@ def index_usuarios(request):
     
     staff = verificar_permiso(usuario, accion)
     
-    if staff:
-        
+    if staff:      
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
-        
+       
         saludo = saludo_dia()
         
         users = User.objects.filter(is_active=True).order_by('id')
@@ -225,10 +221,6 @@ def editar_usuarios(request, user_id):
     if staff:
         aid = 2
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -263,12 +255,7 @@ def editar_usuarios(request, user_id):
 @login_required(login_url='/ingresar')
 def modificar_contrasena(request):
     aid = 4
-    comprobar(request)
-    if(request.user.is_anonymous()):
-        return HttpResponseRedirect('/ingresar')
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    request.session['last_activity'] = str(now)
-    
+   
     usuario = request.user
     user = User.objects.filter(id=usuario.id)
     saludo = saludo_dia()
@@ -293,10 +280,6 @@ def eliminar_usuarios(request, user_id):
     
     if staff:
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         saludo = saludo_dia()
         
@@ -335,10 +318,6 @@ def ver_usuarios(request, user_id):
     
     if staff:
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         saludo = saludo_dia()
         
@@ -359,10 +338,6 @@ def asignar_roles_usuarios_proyecto(request, user_id):
         
         aid = 5
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         saludo = saludo_dia()
         
@@ -402,10 +377,6 @@ def index_roles(request):
     
     if staff:
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -453,10 +424,6 @@ def crear_roles(request):
     if staff:
         aid = 1
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -520,10 +487,6 @@ def editar_roles(request, rol_id):
     if staff:
         aid = 2
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -598,10 +561,6 @@ def ver_roles(request, rol_id):
     
     if staff:
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -647,10 +606,6 @@ def delete_roles(request, rol_id):
     if staff:
         aid = 3
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -675,10 +630,6 @@ def crear_proyectos(request):
     if staff:
         aid = 1
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -713,10 +664,6 @@ def definir_proyectos(request, proyecto_id):
     if staff:
         aid = 2
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -762,10 +709,6 @@ def editar_proyectos(request, proyecto_id):
     if staff:
         aid = 3
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -809,10 +752,6 @@ def ver_proyectos(request, proyecto_id):
     
     if staff:
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -831,10 +770,6 @@ def index_proyectos(request):
     
     if staff:
         comprobar(request)
-        if(request.user.is_anonymous()):
-            return HttpResponseRedirect('/ingresar')
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        request.session['last_activity'] = str(now)
         
         usuario = request.user
         saludo = saludo_dia()
@@ -900,44 +835,54 @@ def comprobar(request):
     date_object = datetime.strptime(last_activity, '%Y-%m-%d %H:%M:%S')
 
     restaminutos = ((now_object - date_object).seconds)/60 
-    
     if restaminutos >= 10:
         logout(request)
         return HttpResponseRedirect('/ingresar')
+    
+    if(request.user.is_anonymous()):
+        return HttpResponseRedirect('/ingresar')
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    request.session['last_activity'] = str(now)
            
 def verificar_permiso(usuario, accion):
-    us = get_object_or_404(Usuarios, id=usuario.id)
+    staff = None
+    us = Usuarios.objects.filter(id=usuario.id)
     rol = get_object_or_404(Roles_Usuarios, usuario=us)
     
     if accion=="Registro de Usuarios" or accion=="Index de Usuarios" or accion=="Editar Usuarios" or accion=="Borrar Usuarios" or accion=="Ver Usuarios":
-        permiso = get_object_or_404(Permisos, nombre="Administración de Usuarios")
+        permiso = Permisos.objects.filter(nombre="Administración de Usuarios")
     
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
         
     elif accion=="Asginar Rol a Usuarios en un Proyecto":
-        permiso = get_object_or_404(Permisos, nombre="Asignación de Usuarios")
+        permiso = Permisos.objects.filter(nombre="Asignación de Usuarios")
     
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
     
     elif accion=="Ver Index de Admin":
-        permiso = get_object_or_404(Permisos, nombre="Ver Página de Administración")
+        permiso = Permisos.objects.filter(nombre="Ver Página de Administración")
+        
+        staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
+    
+    elif accion=="Ver Index de Usuario Regular":
+        permiso = Permisos.objects.filter(nombre="Ver Página de Inicio")
         
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
     
     elif accion=="Registro de Roles" or accion=="Index de Roles" or accion=="Editar Roles" or accion=="Borrar Roles" or accion=="Ver Roles":
-        permiso = get_object_or_404(Permisos, nombre="Administración de Roles y Permisos")
+        permiso = Permisos.objects.filter(nombre="Administración de Roles y Permisos")
         
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
     
     elif accion=="Registro de Proyectos/Servicios" or accion=="Index de Proyectos/Servicios" or accion=="Editar Proyectos/Servicios" or accion=="Ver Proyectos/Servicios":
-        permiso = get_object_or_404(Permisos, nombre="Administración de Proyectos/Servicios")
+        permiso = Permisos.objects.filter(nombre="Administración de Proyectos/Servicios")
         
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
         
     elif accion=="Definicir Proyectos/Servicios":
-        permiso = get_object_or_404(Permisos, nombre="Definición de Proyectos/Servicios")
+        permiso = Permisos.objects.filter(nombre="Definición de Proyectos/Servicios")
         
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
-            
+              
     return staff
     

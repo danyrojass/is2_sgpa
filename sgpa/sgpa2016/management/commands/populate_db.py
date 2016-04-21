@@ -43,7 +43,7 @@ class Command(BaseCommand):
         rol.estado=True
         rol.observacion="Administrador del Sistema."
         rol.save()
-        permisos = Permisos.objects.all()
+        permisos = Permisos.objects.all().exclude(nombre="Ver Página de Inicio")
     
         for p in permisos:  
             pr = Permisos_Roles(permisos=p, roles=rol)

@@ -241,3 +241,6 @@ class EditarProyectoForm(forms.Form):
     fecha_inicio = forms.DateField()
     fecha_fin_estimado = forms.DateField()
     observaciones = forms.CharField(max_length=50, required=False)
+
+class ElegirProyectoForm(forms.Form):
+    proyecto_id = forms.IntegerField(required=False)
