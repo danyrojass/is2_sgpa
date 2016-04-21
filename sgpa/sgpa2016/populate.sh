@@ -1,11 +1,40 @@
 #!/bin/bash
+echo "Por favor, ingrese el número de la opción que desee."
+echo "1. Desplegar ambiente de desarrollo. Generar población para la base de datos."
+echo "2. Desplegar ambiente de producción. Generar población para la base de datos."
+echo "3. Desplegar ambiente de desarrollo."
+echo "4. Desplegar ambiente de producción."
 
-nombreTag=$2
+read ambiente
 
-git checkout $nombreTag
+echo "Por favor, ingrese el nombre del Tag."
 
-if [ "$1" -eq "1" ]; then
-	python ../manage.py runserver
-	deactivate
+read nombreTag
+	
+	git checkout $nombreTag;
 
-fi
+	if [ "$ambiente" -eq "1" ]; then
+		source ../agileEnv/bin/activate
+		python ../manage.py populate_db
+		python ../manage.py runserver
+		deactivate
+
+	elif [ "$ambiente" -eq "2" ]; then
+		python ../manage.py populate_db
+		echo laluzdelsol | sudo -S command
+		sudo cp -a  /home/dany/agile /home/dany/AmbienteProduccion
+		sudo chown :www-data /home/dany/AmbienteProduccion
+		sudo service apache2 restart
+
+	elif [ "$ambiente" -eq "3" ]; then
+		source ../agileEnv/bin/activate
+		python ../manage.py runserver
+		deactivate
+
+	elif [ "$ambiente" -eq "4" ]; then
+		echo laluzdelsol | sudo -S command
+		sudo cp -a  /home/dany/agile /home/dany/AmbienteProduccion
+		sudo chown :www-data /home/dany/AmbienteProduccion
+		sudo service apache2 restart
+	fi
+
