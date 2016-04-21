@@ -231,11 +231,13 @@ def editar_usuarios(request, user_id):
         if request.method == 'POST':
             form = EditarUserForm(request.POST, request.FILES)
             if form.is_valid():
-                user_model.password =  make_password(form.cleaned_data['password'])
+                password = form.cleaned_data['password']
+                if password:
+                    user_model.password =  make_password(password)
                 user_model.email = form.cleaned_data['email']
                 user_model.first_name = form.cleaned_data['first_name']
                 user_model.last_name = form.cleaned_data['last_name']  
-                activo = form.cleaned_dat['estado']
+                activo = form.cleaned_data['estado']
                 if activo:
                     user_model.is_active = activo
                 user_model.save()

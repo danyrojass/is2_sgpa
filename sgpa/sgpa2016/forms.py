@@ -95,16 +95,17 @@ class EditarUserForm(forms.Form):
             if (numCheck and charCheck) and spcecialcharCheck:
                 break
         
-        if (not numCheck or not charCheck) or not spcecialcharCheck:
-            raise forms.ValidationError('Su contraseña debe incluir al menos un número y un caracter no alfanumérico.')
-
-        if password != password2:
-            raise forms.ValidationError('Las contraseñas no coinciden.')
+        if password and password2:
+            if (not numCheck or not charCheck) or not spcecialcharCheck:
+                raise forms.ValidationError('Su contraseña debe incluir al menos un número y un caracter no alfanumérico.')
+    
+            if password != password2:
+                raise forms.ValidationError('Las contraseñas no coinciden.')
         return password2
     
     email = forms.EmailField()
-    password = forms.CharField(min_length=10)
-    password2 = forms.CharField(min_length=10)
+    password = forms.CharField(min_length=10, required=False)
+    password2 = forms.CharField(min_length=10, required=False)
     telefono = forms.CharField(required=False, max_length=15)
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
