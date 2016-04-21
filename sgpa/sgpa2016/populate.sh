@@ -22,8 +22,10 @@ read nombreTag
 	elif [ "$ambiente" -eq "2" ]; then
 		python ../manage.py populate_db
 		echo laluzdelsol | sudo -S command
-		sudo cp -a  /home/dany/agile /home/dany/AmbienteProduccion
+		mkdir /home/dany/AmbienteProduccion
+		cp -a  /home/dany/agile /home/dany/AmbienteProduccion
 		sudo chown :www-data /home/dany/AmbienteProduccion
+		sudo a2ensite agile.conf
 		sudo service apache2 restart
 
 	elif [ "$ambiente" -eq "3" ]; then
@@ -33,8 +35,9 @@ read nombreTag
 
 	elif [ "$ambiente" -eq "4" ]; then
 		echo laluzdelsol | sudo -S command
-		sudo cp -a  /home/dany/agile /home/dany/AmbienteProduccion
+		mkdir /home/dany/AmbienteProduccion
+		cp -a  /home/dany/agile /home/dany/AmbienteProduccion
 		sudo chown :www-data /home/dany/AmbienteProduccion
+		sudo a2ensite agile.conf
 		sudo service apache2 restart
 	fi
-
