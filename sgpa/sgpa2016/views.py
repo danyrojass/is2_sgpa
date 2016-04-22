@@ -57,38 +57,41 @@ def index(request):
     comprobar(request)
         
     usuario = request.user
-    us = Usuarios.objects.filter(id=usuario.id)
-    rol = get_object_or_404(Roles_Usuarios, usuario=us)
+    us = Usuarios.objects.get(id=usuario.id)
     permiso = Permisos.objects.filter(nombre="Ver Página de Administración")
-    staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
-    
+    rol = Roles.objects.filter(permisos=permiso)
+    ru = Usuarios.objects.get(roles=rol)
     saludo = saludo_dia()
         
-    if staff:
+    if us == ru:
         return render_to_response('inicio_admin.html', {'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))    
     else:
         proyectos = Proyectos.objects.filter(usuarios__id=usuario.id)
-    
-    if request.method == 'POST':
-        form = ElegirProyectoForm(request.POST, request.FILES)
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            proyecto_id = cleaned_data.get('proyecto_id')
-            print proyecto_id
-            proyecto = get_object_or_404(Proyectos,id=proyecto_id)
-               
-            return render_to_response('inicio_usuario.html', {'usuario':usuario, 'proyecto':proyecto, 'saludo':saludo}, context_instance=RequestContext(request))   
-    else:
-        form = ElegirProyectoForm()
         
-    return render(request, 'elegir_proyecto.html', {'usuario':usuario, 'proyectos':proyectos, 'saludo':saludo, 'form': form})   
+    if not proyectos:
+        return render_to_response('noasignado.html', {'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))
+    else:
+        if request.method == 'POST':
+            form = ElegirProyectoForm(request.POST, request.FILES)
+            if form.is_valid():
+                cleaned_data = form.cleaned_data
+                proyecto_id = cleaned_data.get('proyecto_id')
+                proyecto = get_object_or_404(Proyectos,id=proyecto_id)
+                   
+                return render_to_response('inicio_usuario.html', {'usuario':usuario, 'proyecto':proyecto, 'saludo':saludo}, context_instance=RequestContext(request))   
+        else:
+            form = ElegirProyectoForm()
+            
+        return render(request, 'elegir_proyecto.html', {'usuario':usuario, 'proyectos':proyectos, 'saludo':saludo, 'form': form})   
     
 def creditos(request):
     comprobar(request)        
     usuario = request.user
     saludo = saludo_dia()
     
-    return render_to_response('creditos.html', {'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))    
+    staff=False
+    
+    return render_to_response('creditos.html', {'usuario':usuario, 'saludo':saludo, 'staff':staff}, context_instance=RequestContext(request))    
      
 """Administración de Usuarios"""
 @login_required(login_url='/ingresar')
@@ -257,7 +260,7 @@ def editar_usuarios(request, user_id):
 @login_required(login_url='/ingresar')
 def modificar_contrasena(request):
     aid = 4
-   
+    
     usuario = request.user
     user = User.objects.filter(id=usuario.id)
     saludo = saludo_dia()

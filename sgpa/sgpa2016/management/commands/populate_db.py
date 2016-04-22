@@ -31,33 +31,42 @@ class Command(BaseCommand):
         for n in nombres:
             agregar_permisos(n, niveles[c])
             c = c + 1 
-        
-        user = User.objects.get(pk=1)
-        usuario = Usuarios()
-        usuario.user = user
-        usuario.save()
-        
-        rol = Roles()
-        rol.nombre="Administrador"
-        rol.tipo=True
-        rol.estado=True
-        rol.observacion="Administrador del Sistema."
-        rol.save()
-        permisos = Permisos.objects.all().exclude(nombre="Ver Página de Inicio")
-    
-        for p in permisos:  
-            pr = Permisos_Roles(permisos=p, roles=rol)
-            pr.save()
-        
-        ru = Roles_Usuarios()
-        ru.usuario = usuario
-        ru.roles = rol
-        ru.save()
+
+     
+        crear_roles("Administrador", True, "Administrador del Sistema.")
+        crear_roles("Scrum Master", True, "Líder del Proyecto.")
         
         crear_usuario('Alfredo', 'Barrios', 'abarrios', 'a123', 'alfbarrios2010@gmail.com', True)
         crear_usuario('Christian', 'Pérez', 'cperez', 'a123', 'criper123@gmail.com', True)
         crear_usuario('Luis', 'Soto', 'lsoto', 'a123', 'lutyma89@gmail.com', True)
         crear_usuario('Daniel', 'Rojas', 'drojas', 'a123', 'danyrojassimon@gmail.com', False)
+
+def crear_roles(nombre, tipo, observacion):
+    rol = Roles()
+    rol.nombre = nombre
+    rol.tipo = tipo
+    rol.estado = True
+    rol.observacion = observacion
+    rol.save()
+    
+    if nombre=="Administrador":       
+        user = User.objects.get(pk=1)
+        usuario = Usuarios()
+        usuario.user = user
+        usuario.save()
+        permisos = Permisos.objects.all()
+    
+        ru = Roles_Usuarios()
+        ru.usuario = usuario
+        ru.roles = rol
+        ru.save()
+        
+    else:
+        permisos = Permisos.objects.all().exclude(nivel=0)
+    
+    for p in permisos:  
+        pr = Permisos_Roles(permisos=p, roles=rol)
+        pr.save()
         
 def crear_usuario(nombre, apellido, username, password, email, activo):
     user = User()

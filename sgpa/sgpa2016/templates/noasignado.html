@@ -11,10 +11,13 @@
 				<td>&nbsp;</td>
 			</tr>
 		</table>
-	</head>	
+	</head>		
+	
 	<link href="/static/style.css" rel="stylesheet" type="text/css" />
 		<div id="welcome" align="center">	
-			<span>El usuario y la contraseña no coinciden o no existen. <a href='/cerrar'>Salir</a></span>
+			{{saludo}}, {{usuario.username}}.</br>
+			Aún no se encuentra asignado a ningún proyecto!</br>
+			<a href='/cerrar'>Salir</a></span>
 		</div>
     <body>
 		<footer><img src="/static/img/sgpa1.png" width="75" height="20" alt="sgpa"> 
