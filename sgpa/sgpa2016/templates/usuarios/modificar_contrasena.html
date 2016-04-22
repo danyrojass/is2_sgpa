@@ -10,9 +10,11 @@
 		<nav>
 			<ul id='nav'>
 		  		<li><a href='/'>Inicio</a></li>
-		  		<li><a href='/sgpa/usuarios/index/'>Usuarios</a></li>
-		  		<li><a href='/sgpa/roles/index/'>Roles</a></li>
-		  		<li><a href='/sgpa/proyectos/index/'>Proyectos</a></li>
+		  		{% if staff %}
+			  		<li><a href='/sgpa/usuarios/index/'>Usuarios</a></li>
+			  		<li><a href='/sgpa/roles/index/'>Roles</a></li>
+			  		<li><a href='/sgpa/proyectos/index/'>Proyectos</a></li>
+		  		{% endif %}
 		  		<li><a href='/cerrar'>Cerrar</a></li>
     		</ul>
 		</nav>
@@ -20,7 +22,7 @@
 			<div id="pagina">
 				<div id="zonaContenido">
 					<div align="center">
-						<div id="tituloForm" class="header">MODIFICAR USUARIO </div>
+						<div id="tituloForm" class="header">MODIFICAR CONTRASEÑA </div>
 							<div id="frmBusqueda">
 								<form id="formulario" name="formulario" method="post" action="">{% csrf_token %}{{ form.errors }}
 									<table class="fuente8" width="98%" cellspacing=0 cellpadding=3 border=0>
@@ -29,11 +31,6 @@
 											<td>{{usuario.id}}</td>
 							    			<td width="42%" rowspan="13" align="left" valign="top"><ul></ul></td>
 										</tr>
-										
-										<tr>
-											<td width="15%"><b>Contraseña Actual</b></td>
-							    			<td width="43%"><input NAME="actual_password" type="text" class="cajaGrande" id="actual_password" size="45" minlength="10" value=""></td>
-					        			</tr>
 										
 										<tr>
 											<td width="15%"><b>Contraseña</b></td>
@@ -50,7 +47,7 @@
 						
 								<div id="botonBusqueda">
 									<button class="button" type="submit">ACTUALIZAR</button>
-        							<a href="/" class="button" type="submit">CANCELAR</a>
+        							<a class="button" onClick="javascript:history.go(-1);"> CANCELAR</a>
 								</div>
 							</form>
 						</div>
@@ -58,4 +55,5 @@
 				</div>
 			</div>
 		</div>
+
 {% endblock content %}

@@ -10,11 +10,11 @@
 		<nav>
 			<ul id='nav'>
 		  		<li><a href='/'>Inicio</a></li>
-		  		{{ if staff }}
+		  		{% if staff %}
 			  		<li><a href='/sgpa/usuarios/index/'>Usuarios</a></li>
 			  		<li><a href='/sgpa/roles/index/'>Roles</a></li>
 			  		<li><a href='/sgpa/proyectos/index/'>Proyectos</a></li>
-		  		{{ endif }}
+		  		{% endif %}
 		  		<li><a href='/cerrar'>Cerrar</a></li>
     		</ul>
 		</nav>

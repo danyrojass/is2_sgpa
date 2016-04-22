@@ -89,8 +89,8 @@ def creditos(request):
     usuario = request.user
     saludo = saludo_dia()
     
-    staff=False
-    
+    staff=verificar_permiso(usuario, "Ver Index de Admin")
+   
     return render_to_response('creditos.html', {'usuario':usuario, 'saludo':saludo, 'staff':staff}, context_instance=RequestContext(request))    
      
 """Administración de Usuarios"""
@@ -265,16 +265,18 @@ def modificar_contrasena(request):
     user = User.objects.filter(id=usuario.id)
     saludo = saludo_dia()
     
+    staff=verificar_permiso(usuario, "Ver Index de Admin")
+    
     if request.method == 'POST':
         form = ModificarContrasenaForm(request.POST, user=user)
         if form.is_valid():
             usuario.password =  make_password(form.cleaned_data['password'])   
             usuario.save()
 
-            return render_to_response('usuarios/gracias.html', {'aid':aid, 'usuario':usuario, 'saludo':saludo}, context_instance=RequestContext(request))
+            return render_to_response('usuarios/gracias.html', {'aid':aid, 'usuario':usuario, 'saludo':saludo, 'staff':staff}, context_instance=RequestContext(request))
     else:
         form = ModificarContrasenaForm(user=user)
-    return render(request, 'usuarios/modificar_contrasena.html', {'form': form, 'usuario':usuario, 'saludo':saludo})
+    return render(request, 'usuarios/modificar_contrasena.html', {'form': form, 'usuario':usuario, 'saludo':saludo,'staff':staff})
 
 @login_required(login_url='/ingresar')
 def eliminar_usuarios(request, user_id):
@@ -762,8 +764,10 @@ def ver_proyectos(request, proyecto_id):
         saludo = saludo_dia()
         
         proyecto = get_object_or_404(Proyectos, id=proyecto_id)
+        up = proyecto.usuarios.all()
+        print up
         
-        return render(request, 'proyectos/ver.html', {'usuario':usuario, 'saludo':saludo, 'proyecto':proyecto})
+        return render(request, 'proyectos/ver.html', {'up':up, 'usuario':usuario, 'saludo':saludo, 'proyecto':proyecto})
     else:
         return HttpResponseRedirect('/index')
 
@@ -884,7 +888,7 @@ def verificar_permiso(usuario, accion):
         
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)
         
-    elif accion=="Definicir Proyectos/Servicios":
+    elif accion=="Definir Proyectos/Servicios":
         permiso = Permisos.objects.filter(nombre="Definición de Proyectos/Servicios")
         
         staff = Permisos_Roles.objects.filter(roles=rol.roles).filter(permisos=permiso)

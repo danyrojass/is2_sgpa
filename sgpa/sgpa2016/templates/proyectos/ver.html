@@ -76,9 +76,39 @@
 										<td><b>Observaciones</b></td>
 									    <td colspan="2">{{proyecto.observaciones}}</td>
 								    </tr>
-								    
-								</table>
-							</div>
+							</table>	
+						</div>
+					
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+							
+					<div id="tituloForm" class="header">EQUIPO</div>
+					<div id="frmBusqueda">
+						<table class="fuente8" width="98%" cellspacing=0 cellpadding=3 border=0>
+							<colgroup>
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+							</colgroup>
+
+										{% if up %}
+											{% for u in up %}
+									    		<td width="10%">{{u}}</td>
+									    	{% endfor %}
+									    {% else %}
+									    	<td width="10%">Sin integrantes.</td>
+									    {% endif %}
+
+								
+						</table>
+					</div>
 							
 							<div id="botonBusqueda">
         							<a class="button" onClick="javascript:history.go(-1);"> ATRÁS</a>
